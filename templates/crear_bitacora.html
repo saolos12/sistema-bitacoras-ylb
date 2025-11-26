@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-center">{{ legend }}</h2>
+            
+            <form method="POST" action="" novalidate>
+                {{ form.hidden_tag() }}
+                
+                <fieldset class="form-group">
+                    <div class="mb-3">
+                        {{ form.vehiculo.label(class="form-label") }}
+                        {{ form.vehiculo(class="form-select") }}
+                        {% for error in form.vehiculo.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.kilometraje_salida.label(class="form-label") }}
+                        {{ form.kilometraje_salida(class="form-control") }}
+                        {% for error in form.kilometraje_salida.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.destino.label(class="form-label") }}
+                        {{ form.destino(class="form-control") }}
+                        {% for error in form.destino.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.area.label(class="form-label") }}
+                        {{ form.area(class="form-control") }}
+                        {% for error in form.area.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.descripcion_trabajo.label(class="form-label") }}
+                        {{ form.descripcion_trabajo(class="form-control", rows=3) }}
+                        {% for error in form.descripcion_trabajo.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+                <div class="form-group text-center">
+                    {{ form.submit(class="btn btn-primary w-100") }}
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{{ url_for('dashboard') }}">Cancelar y volver al panel</a>
+        </div>
+    </div>
+{% endblock content %}

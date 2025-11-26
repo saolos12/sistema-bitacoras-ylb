@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Reportes de Bitácoras</h1>
+        {% if bitacoras %}
+        <a href="{{ url_for('reporte_pdf', 
+                            fecha_inicio=filters.fecha_inicio, 
+                            fecha_fin=filters.fecha_fin, 
+                            vehiculo_id=filters.vehiculo_id,
+                            area_id=filters.area_id) }}" 
+           class="btn btn-danger">
+            Exportar a PDF
+        </a>
+        {% endif %}
+    </div>
+
+    {% if form %}
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form method="POST" action="" novalidate>
+                {{ form.hidden_tag() }}
+                <div class="row">
+                    <div class="col-md-3"><div class="mb-3">
+                        {{ form.fecha_inicio.label(class="form-label") }}
+                        {{ form.fecha_inicio(class="form-control") }}
+                    </div></div>
+                    <div class="col-md-3"><div class="mb-3">
+                        {{ form.fecha_fin.label(class="form-label") }}
+                        {{ form.fecha_fin(class="form-control") }}
+                    </div></div>
+                    <div class="col-md-3"><div class="mb-3">
+                        {{ form.vehiculo.label(class="form-label") }}
+                        {{ form.vehiculo(class="form-select") }}
+                    </div></div>
+                    <div class="col-md-3"><div class="mb-3">
+                        {{ form.area.label(class="form-label") }}
+                        {{ form.area(class="form-select") }}
+                    </div></div>
+                </div>
+                <div class="text-center">
+                    {{ form.submit(class="btn btn-primary w-50") }}
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Responsable</th>
+                            <th>Km. Inicial</th>
+                            <th>Km. Final</th>
+                            <th>Km. Recorr.</th>
+                            <th>Litros</th>
+                            <th>Actividad / Observaciones</th> <th>Sector</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if bitacoras %}
+                            {% for bitacora in bitacoras %}
+                            <tr>
+                                <td>{{ bitacora.fecha_salida.strftime('%Y-%m-%d') }}</td>
+                                <td>{{ bitacora.nombre_conductor }}</td>
+                                <td>{{ bitacora.kilometraje_salida }}</td>
+                                <td>{{ bitacora.kilometraje_entrada }}</td>
+                                <td>{{ (bitacora.kilometraje_entrada - bitacora.kilometraje_salida)|round(2) }}</td>
+                                <td>{{ bitacora.litros_combustible or 0 }}</td>
+                                <td>{{ bitacora.descripcion_trabajo }}</td> <td>{{ bitacora.area_asignada.nombre }}</td>
+                                <td>
+                                    <a href="{{ url_for('editar_bitacora', bitacora_id=bitacora.id) }}" class="btn btn-sm btn-outline-warning me-1">Editar</a>
+                                    <form action="{{ url_for('eliminar_bitacora', bitacora_id=bitacora.id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta bitácora?');">
+                                        <input type="submit" value="Eliminar" class="btn btn-sm btn-outline-danger">
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="9" class="text-center text-muted">No se encontraron registros.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

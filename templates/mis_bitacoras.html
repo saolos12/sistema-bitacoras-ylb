@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Mis Bitácoras</h1>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Volver al Panel</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Vehículo</th>
+                            <th scope="col">Salida</th>
+                            <th scope="col">Llegada</th>
+                            <th scope="col">Destino</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bitacora in bitacoras %}
+                        <tr>
+                            <td>
+                                {% if bitacora.fecha_entrada %}
+                                    <span class="badge bg-secondary">Cerrada</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Abierta</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ bitacora.vehiculo_usado.placa }}</td>
+                            <td>{{ bitacora.fecha_salida.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>
+                                {% if bitacora.fecha_entrada %}
+                                    {{ bitacora.fecha_entrada.strftime('%Y-%m-%d %H:%M') }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>{{ bitacora.destino }}</td>
+                            <td>
+                                {% if not bitacora.fecha_entrada %}
+                                    <a href="{{ url_for('registrar_llegada', bitacora_id=bitacora.id) }}" class="btn btn-sm btn-warning">Registrar Llegada</a>
+                                {% else %}
+                                    <a href="#" class="btn btn-sm btn-outline-secondary disabled">Detalles</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

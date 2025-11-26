@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1 class="mb-4">Panel de Conductor</h1>
+    <p>Bienvenido, {{ current_user.username }}.</p>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Registrar Bitácora</h5>
+                    <p class="card-text">Haz clic aquí para registrar una nueva salida de vehículo.</p>
+                    
+                    {% if bitacora_abierta %}
+                        <a href="{{ url_for('crear_bitacora') }}" class="btn btn-success btn-lg disabled" 
+                           title="Debes registrar tu llegada primero">Registrar Salida</a>
+                        <p class="text-danger mt-2">Tienes una bitácora abierta.</p>
+                    {% else %}
+                        <a href="{{ url_for('crear_bitacora') }}" class="btn btn-success btn-lg">Registrar Salida</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Mis Bitácoras</h5>
+                    <p class="card-text">Ver tu historial de salidas y registros pendientes.</p>
+                    <a href="{{ url_for('mis_bitacoras') }}" class="btn btn-primary">Ver Mis Registros</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

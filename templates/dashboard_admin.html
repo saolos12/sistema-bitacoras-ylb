@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Panel de Administración</h1>
+        <small class="text-muted">Bienvenido, {{ current_user.username }}</small>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center text-primary border-primary">
+                <div class="card-body">
+                    <h1 class="display-4">{{ stats.total_bitacoras }}</h1>
+                    <h6 class="card-title text-muted">Bitácoras Totales</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center text-warning border-warning">
+                <div class="card-body">
+                    <h1 class="display-4">{{ stats.bitacoras_hoy }}</h1>
+                    <h6 class="card-title text-muted">Bitácoras (Hoy)</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center text-success border-success">
+                <div class="card-body">
+                    <h1 class="display-4">{{ stats.total_vehiculos }}</h1>
+                    <h6 class="card-title text-muted">Vehículos en Flota</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm text-center text-info border-info">
+                <div class="card-body">
+                    <h1 class="display-4">{{ stats.total_areas }}</h1>
+                    <h6 class="card-title text-muted">Áreas Registradas</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <hr class="my-4">
+    <h3 class="mb-3">Herramientas de Gestión</h3>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Vehículos</h5>
+                    <p class="card-text">Gestionar la flota de vehículos.</p>
+                    <a href="{{ url_for('listar_vehiculos') }}" class="btn btn-primary">Gestionar Vehículos</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Áreas</h5>
+                    <p class="card-text">Gestionar las áreas/departamentos.</p>
+                    <a href="{{ url_for('listar_areas') }}" class="btn btn-primary">Gestionar Áreas</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Reportes y Bitácoras</h5>
+                    <p class="card-text">Ver historial y filtrar bitácoras.</p>
+                    <a href="{{ url_for('reportes') }}" class="btn btn-info text-white">Ver Reportes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

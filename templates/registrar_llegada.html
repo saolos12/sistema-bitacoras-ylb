@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-center">{{ legend }}</h2>
+            
+            <div class="alert alert-info">
+                <strong>Resumen de Salida:</strong><br>
+                <strong>Vehículo:</strong> {{ bitacora.vehiculo_usado.placa }} ({{ bitacora.vehiculo_usado.marca }} {{ bitacora.vehiculo_usado.modelo }})<br>
+                <strong>Fecha Salida:</strong> {{ bitacora.fecha_salida.strftime('%Y-%m-%d %H:%M') }}<br>
+                <strong>Km Salida:</strong> {{ bitacora.kilometraje_salida }}<br>
+                <strong>Destino:</strong> {{ bitacora.destino }}
+            </div>
+
+            <form method="POST" action="" novalidate>
+                {{ form.hidden_tag() }}
+                
+                <fieldset class="form-group">
+                    <div class="mb-3">
+                        {{ form.kilometraje_entrada.label(class="form-label") }}
+                        {{ form.kilometraje_entrada(class="form-control") }}
+                        {% for error in form.kilometraje_entrada.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+                <div class="form-group text-center">
+                    {{ form.submit(class="btn btn-primary w-100") }}
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{{ url_for('mis_bitacoras') }}">Cancelar</a>
+        </div>
+    </div>
+{% endblock content %}

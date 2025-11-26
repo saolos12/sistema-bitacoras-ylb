@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Todas las Bitácoras</h1>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Volver al Panel</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Conductor</th>
+                            <th scope="col">Vehículo</th>
+                            <th scope="col">Salida</th>
+                            <th scope="col">Llegada</th>
+                            <th scope="col">Km Salida</th>
+                            <th scope="col">Km Llegada</th>
+                            <th scope="col">Destino</th>
+                            <th scope="col">Área</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bitacora in bitacoras %}
+                        <tr class="{% if not bitacora.fecha_entrada %}table-danger{% endif %}">
+                            <td>
+                                {% if bitacora.fecha_entrada %}
+                                    <span class="badge bg-secondary">Cerrada</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Abierta</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ bitacora.registrador.username }}</td>
+                            <td>{{ bitacora.vehiculo_usado.placa }}</td>
+                            <td>{{ bitacora.fecha_salida.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>
+                                {% if bitacora.fecha_entrada %}
+                                    {{ bitacora.fecha_entrada.strftime('%Y-%m-%d %H:%M') }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>{{ bitacora.kilometraje_salida }}</td>
+                            <td>
+                                {% if bitacora.kilometraje_entrada %}
+                                    {{ bitacora.kilometraje_entrada }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>{{ bitacora.destino }}</td>
+                            <td>{{ bitacora.area }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

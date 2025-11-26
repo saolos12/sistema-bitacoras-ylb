@@ -1,0 +1,139 @@
+/* static/css/style.css */
+
+/* 1. Importamos la fuente */
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700&display=swap');
+
+/* 2. Paleta de colores "Jarvis" con mejor contraste */
+:root {
+    --jarvis-bg: #020a14;
+    --jarvis-panel-bg: rgba(10, 30, 50, 0.75);
+    --jarvis-border: rgba(0, 184, 255, 0.3);
+    --jarvis-glow: #00b8ff;
+    
+    /* --- ¡¡COLORES DE TEXTO MEJORADOS!! --- */
+    --jarvis-text: #f0f8ff;      /* Texto principal (Blanco Hielo) */
+    --jarvis-text-muted: #a8b2d1; /* Texto secundario (Gris-azulado MÁS CLARO) */
+}
+
+/* 3. Base de la página */
+body {
+    background-color: var(--jarvis-bg) !important;
+    color: var(--jarvis-text) !important; /* Forzar texto claro */
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 300;
+}
+
+/* --- ¡¡REGLAS NUEVAS PARA FORZAR CONTRASTE!! --- */
+p {
+    color: var(--jarvis-text) !important; /* Forzar párrafos a ser claros */
+}
+
+.text-muted {
+    color: var(--jarvis-text-muted) !important; /* Forzar texto atenuado a ser claro */
+}
+/* --- Fin de reglas nuevas --- */
+
+
+/* 4. Estilo de "vidrio" para tarjetas y paneles */
+.card, .alert {
+    background-color: var(--jarvis-panel-bg) !important;
+    border: 1px solid var(--jarvis-border) !important;
+    backdrop-filter: blur(10px); 
+    box-shadow: 0 0 15px rgba(0, 184, 255, 0.1);
+    color: var(--jarvis-text) !important; /* ¡¡Importante!! Forzar texto claro dentro de las tarjetas */
+}
+
+.card-header, .card-footer {
+    border-color: var(--jarvis-border) !important;
+}
+
+/* 5. Títulos */
+.card-title, h1, h2, h3, h4, h5 {
+    color: var(--jarvis-glow);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* 6. Formularios */
+.form-control, .form-select {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    color: var(--jarvis-text) !important;
+    border: 1px solid var(--jarvis-border) !important;
+}
+.form-control:focus, .form-select:focus {
+    color: var(--jarvis-text) !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border-color: var(--jarvis-glow) !important;
+    box-shadow: 0 0 10px rgba(0, 184, 255, 0.5) !important; 
+}
+.form-label {
+    color: var(--jarvis-text-muted) !important; /* ¡¡Importante!! Forzar etiquetas claras */
+}
+
+/* 7. Tablas */
+.table {
+    color: var(--jarvis-text) !important;
+    border-color: var(--jarvis-border) !important;
+}
+.table thead th {
+    color: var(--jarvis-glow);
+    font-weight: 700;
+}
+.table-hover tbody tr:hover {
+    color: var(--jarvis-glow) !important;
+    background-color: rgba(0, 184, 255, 0.1) !important;
+}
+/* Para que el texto "Cerrada" se lea */
+.badge.bg-secondary {
+    background-color: var(--jarvis-text-muted) !important;
+    color: var(--jarvis-bg) !important;
+}
+
+/* 8. Botones */
+.btn-primary {
+    background-color: var(--jarvis-glow) !important;
+    border-color: var(--jarvis-glow) !important;
+    color: var(--jarvis-bg) !important;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+.btn-primary:hover {
+    background-color: transparent !important;
+    color: var(--jarvis-glow) !important;
+    box-shadow: 0 0 10px rgba(0, 184, 255, 0.5) !important;
+}
+.btn-info {
+    font-weight: 700;
+}
+
+/* 9. Navbar */
+.navbar {
+    background-color: var(--jarvis-panel-bg) !important;
+    border-bottom: 1px solid var(--jarvis-border) !important;
+    backdrop-filter: blur(10px);
+}
+.navbar-brand {
+    color: var(--jarvis-glow) !important;
+    font-weight: 700;
+}
+.nav-link {
+    color: var(--jarvis-text-muted) !important;
+    font-weight: 400;
+}
+.nav-link:hover {
+    color: var(--jarvis-glow) !important;
+}
+
+/* 10. Estadísticas (KPIs) */
+.display-4 {
+    color: var(--jarvis-glow);
+    font-weight: 700;
+}
+.border-danger { border-color: #dc3545 !important; }
+.text-danger { color: #dc3545 !important; }
+.border-warning { border-color: #ffc107 !important; }
+.text-warning { color: #ffc107 !important; }
+.border-success { border-color: #198754 !important; }
+.text-success { color: #198754 !important; }
+.border-info { border-color: #0dcaf0 !important; }
+.text-info { color: #0dcaf0 !important; }

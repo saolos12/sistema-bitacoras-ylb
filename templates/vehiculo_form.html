@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-center">{{ legend }}</h2>
+            
+            <form method="POST" action="" novalidate>
+                {{ form.hidden_tag() }}
+                
+                <fieldset class="form-group">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.codigo.label(class="form-label") }}
+                            {{ form.codigo(class="form-control") }}
+                            {% for error in form.codigo.errors %}<span class="text-danger">{{ error }}</span>{% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.codigo_interno.label(class="form-label") }}
+                            {{ form.codigo_interno(class="form-control") }}
+                            {% for error in form.codigo_interno.errors %}<span class="text-danger">{{ error }}</span>{% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.placa.label(class="form-label") }}
+                            {{ form.placa(class="form-control") }}
+                            {% for error in form.placa.errors %}<span class="text-danger">{{ error }}</span>{% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.nr_chasis.label(class="form-label") }}
+                            {{ form.nr_chasis(class="form-control") }}
+                            {% for error in form.nr_chasis.errors %}<span class="text-danger">{{ error }}</span>{% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.marca.label(class="form-label") }}
+                            {{ form.marca(class="form-control") }}
+                            {% for error in form.marca.errors %}<span class="text-danger">{{ error }}</span>{% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.modelo.label(class="form-label") }}
+                            {{ form.modelo(class="form-control") }}
+                            {% for error in form.modelo.errors %}<span class="text-danger">{{ error }}</span>{% endfor %}
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="form-group text-center mt-3">
+                    {{ form.submit(class="btn btn-primary w-100") }}
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{{ url_for('listar_vehiculos') }}">Cancelar y volver a la lista</a>
+        </div>
+    </div>
+{% endblock content %}

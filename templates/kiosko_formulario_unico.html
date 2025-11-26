@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title text-center">{{ legend }}</h2>
+                    <p class="text-center text-muted">
+                        Por favor, llene este formulario <strong>después</strong> de haber completado su viaje.
+                    </p>
+                    
+                    <form method="POST" action="{{ url_for('procesar_bitacora') }}" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <fieldset class="form-group">
+                            <div class="mb-3">
+                                {{ form.nombre_conductor.label(class="form-label") }}
+                                {{ form.nombre_conductor(class="form-control") }}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.vehiculo.label(class="form-label") }}
+                                    {{ form.vehiculo(class="form-select") }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    {{ form.area.label(class="form-label") }}
+                                    {{ form.area(class="form-select") }}
+                                </div>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="mb-3">
+                                {{ form.fecha_viaje.label(class="form-label") }}
+                                {{ form.fecha_viaje(class="form-control") }}
+                            </div>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.kilometraje_salida.label(class="form-label") }}
+                                    {{ form.kilometraje_salida(class="form-control") }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    {{ form.kilometraje_entrada.label(class="form-label") }}
+                                    {{ form.kilometraje_entrada(class="form-control") }}
+                                    {% for error in form.kilometraje_entrada.errors %}
+                                        <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="mb-3">
+                                {{ form.litros_combustible.label(class="form-label") }}
+                                {{ form.litros_combustible(class="form-control", type="number", step="0.01") }}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.descripcion_trabajo.label(class="form-label") }}
+                                {{ form.descripcion_trabajo(class="form-control", rows=3) }}
+                            </div>
+
+                            </fieldset>
+                        <div class="form-group text-center">
+                            {{ form.submit(class="btn btn-primary w-100") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

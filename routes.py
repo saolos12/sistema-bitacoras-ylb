@@ -116,14 +116,44 @@ def logout():
 @login_required
 @admin_required
 def dashboard():
+    # 1. KPIs Básicos (Números)
     stats = {
         'total_bitacoras': Bitacora.query.count(),
-        'bitacoras_hoy': Bitacora.query.filter(Bitacora.fecha_salida >= datetime.combine(datetime.utcnow().date(), time.min)).count(),
         'total_vehiculos': Vehiculo.query.count(),
-        'total_areas': Area.query.count()
+        'total_areas': Area.query.count(),
+        # Bitácoras de hoy
+        'bitacoras_hoy': Bitacora.query.filter(Bitacora.fecha_salida >= datetime.combine(datetime.utcnow().date(), time.min)).count()
     }
-    return render_template('dashboard_admin.html', title='Panel de Admin', stats=stats)
 
+    # 2. Datos para el Gráfico de Torta (Bitácoras por Área)
+    areas = Area.query.all()
+    labels_area = []
+    data_area = []
+    
+    for area in areas:
+        # Contamos cuántas bitácoras tiene cada área
+        cantidad = len(area.bitacoras)
+        if cantidad > 0: # Solo mostramos áreas con actividad
+            labels_area.append(area.nombre)
+            data_area.append(cantidad)
+
+    # 3. Datos para el Gráfico de Barras (Top 5 Vehículos más usados)
+    vehiculos = Vehiculo.query.all()
+    # Ordenamos vehículos por cantidad de bitácoras (de mayor a menor) y tomamos los top 5
+    vehiculos_sorted = sorted(vehiculos, key=lambda v: len(v.bitacoras), reverse=True)[:5]
+    
+    labels_vehiculo = [v.placa for v in vehiculos_sorted]
+    data_vehiculo = [len(v.bitacoras) for v in vehiculos_sorted]
+
+    return render_template('dashboard_admin.html', 
+                           title='Panel de Admin', 
+                           stats=stats,
+                           chart_data={
+                               'area_labels': labels_area,
+                               'area_values': data_area,
+                               'vehiculo_labels': labels_vehiculo,
+                               'vehiculo_values': data_vehiculo
+                           })
 # --- CRUD VEHÍCULOS ---
 @app.route("/vehiculos")
 @login_required
@@ -455,3 +485,4 @@ def instalar_sistema_ahora():
             return "<h1 style='color:blue'>El sistema ya estaba instalado.</h1><br><a href='/login'>Ir al Login</a>"
     except Exception as e:
         return f"<h1 style='color:red'>ERROR: {str(e)}</h1>"
+

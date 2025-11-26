@@ -9,10 +9,10 @@ from functools import wraps
 from datetime import datetime, time
 from fpdf import FPDF
 import io
-import os # <--- ¡NECESARIO PARA ENCONTRAR LA IMAGEN!
+import os
 
 # -----------------------------------------------------------------
-# CLASE PDF ESTILIZADA CON LOGO
+# CLASE PDF ESTILIZADA
 # -----------------------------------------------------------------
 class PDF(FPDF):
     def safe_str(self, text):
@@ -21,30 +21,31 @@ class PDF(FPDF):
     def header(self):
         # 1. Fondo del Encabezado (Azul Oscuro)
         self.set_fill_color(28, 40, 51)
-        self.rect(0, 0, 297, 25, 'F') # Aumenté la altura a 25mm para que quepa el logo
+        # Altura 25mm para que quepa el logo
+        self.rect(0, 0, 297, 25, 'F') 
         
         # 2. LOGO DE LA INSTITUCIÓN
-        # Buscamos la ruta absoluta de la imagen
         logo_path = os.path.join(app.root_path, 'static', 'img', 'logo.png')
-        
-        # Si el archivo existe, lo ponemos
         if os.path.exists(logo_path):
-            # x=10, y=2, h=20 (posición y altura)
-            # Ajusta 'h' (altura) según tu logo. El ancho se ajusta solo.
             try:
+                # Logo a la izquierda
                 self.image(logo_path, x=10, y=2.5, h=20)
             except:
-                pass # Si falla la imagen, no rompemos el PDF
+                pass
         
-        # 3. Título (Centrado y Blanco)
+        # 3. Título (CENTRADO PERFECTO)
         self.set_font('Arial', 'B', 14)
         self.set_text_color(255, 255, 255)
-        self.set_y(8) # Bajamos un poco el texto para centrarlo con el logo
-        # Movemos el texto un poco a la derecha para no tapar el logo (Cell con margen)
-        self.cell(30) # Margen izquierdo invisible de 30mm (espacio del logo)
-        self.cell(0, 10, self.safe_str('REPORTE DE BITACORAS VEHICULARES - YLB'), 0, 1, 'L') # 'L' = Alineado a la izquierda junto al logo
         
-        self.ln(12) # Salto de línea para separar del cuerpo
+        # Movemos el cursor verticalmente para centrar el texto en la barra azul
+        self.set_y(8) 
+        
+        # width=0 significa "todo el ancho de la página"
+        # align='C' significa Centrado
+        self.cell(0, 10, self.safe_str('REPORTE DE BITACORAS VEHICULARES - YLB'), 0, 1, 'C')
+        
+        # Salto de línea para salir del header azul
+        self.ln(15)
 
     def footer(self):
         self.set_y(-15)
@@ -61,7 +62,7 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# --- Rutas Públicas ---
+# --- RUTAS PÚBLICAS (KIOSKO) ---
 @app.route("/")
 def registrar_bitacora():
     form = BitacoraForm()
@@ -90,7 +91,7 @@ def procesar_bitacora():
         return redirect(url_for('registrar_bitacora'))
     return render_template('kiosko_formulario_unico.html', title='Registrar Bitácora', form=form, legend='Registro de Bitácora')
 
-# --- Rutas de Admin ---
+# --- RUTAS DE ADMIN ---
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -123,7 +124,7 @@ def dashboard():
     }
     return render_template('dashboard_admin.html', title='Panel de Admin', stats=stats)
 
-# --- Rutas de Vehículos y Áreas ---
+# --- CRUD VEHÍCULOS ---
 @app.route("/vehiculos")
 @login_required
 @admin_required
@@ -198,6 +199,8 @@ def eliminar_vehiculo(vehiculo_id):
     db.session.delete(vehiculo)
     db.session.commit()
     return redirect(url_for('listar_vehiculos'))
+
+# --- CRUD AREAS ---
 @app.route("/areas")
 @login_required
 @admin_required
@@ -244,7 +247,7 @@ def eliminar_area(area_id):
     flash(f'Área "{area.nombre}" eliminada.', 'warning')
     return redirect(url_for('listar_areas'))
 
-# --- Ruta de Reportes ---
+# --- REPORTES ---
 @app.route("/reportes", methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -276,7 +279,6 @@ def reportes():
     bitacoras = query.order_by(Bitacora.fecha_salida.desc()).all()
     return render_template('reportes.html', title='Generar Reportes', form=form, bitacoras=bitacoras, filters=filters)
 
-# --- Ruta de Edición ---
 @app.route("/bitacora/<int:bitacora_id>/editar", methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -317,7 +319,9 @@ def eliminar_bitacora(bitacora_id):
     flash('La bitácora ha sido eliminada.', 'warning')
     return redirect(url_for('reportes'))
 
-# --- PDF (APLICA EL FILTRADO) ---
+# -----------------------------------------------------------------
+# RUTA PDF CON HEADER CENTRADO (Y Safe Strings)
+# -----------------------------------------------------------------
 @app.route("/reporte/pdf")
 @login_required
 @admin_required
@@ -359,7 +363,6 @@ def reporte_pdf():
     def safe_str(text):
         return str(text or '').encode('latin-1', 'replace').decode('latin-1')
 
-    # Header de tabla
     pdf.set_fill_color(220, 220, 220)
     pdf.set_font('Arial', 'B', 8)
     pdf.cell(col_width["fecha"], 8, safe_str('FECHA'), 1, 0, 'C', fill=True)
@@ -435,7 +438,7 @@ def reporte_pdf():
     response.headers['Content-Disposition'] = f'attachment; filename=reporte_bitacoras_{fecha_hoy}.pdf'
     return response
 
-# --- Ruta Mágica de Instalación (Para Render) ---
+# --- RUTA MÁGICA DE INSTALACIÓN ---
 @app.route("/instalar_sistema_ahora")
 def instalar_sistema_ahora():
     try:

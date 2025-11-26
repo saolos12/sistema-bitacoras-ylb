@@ -1,139 +1,185 @@
 /* static/css/style.css */
 
-/* 1. Importamos la fuente */
-@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700&display=swap');
+/* 1. FUENTES Y VARIABLES */
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap');
 
-/* 2. Paleta de colores "Jarvis" con mejor contraste */
 :root {
     --jarvis-bg: #020a14;
-    --jarvis-panel-bg: rgba(10, 30, 50, 0.75);
-    --jarvis-border: rgba(0, 184, 255, 0.3);
-    --jarvis-glow: #00b8ff;
-    
-    /* --- ¡¡COLORES DE TEXTO MEJORADOS!! --- */
-    --jarvis-text: #f0f8ff;      /* Texto principal (Blanco Hielo) */
-    --jarvis-text-muted: #a8b2d1; /* Texto secundario (Gris-azulado MÁS CLARO) */
+    --jarvis-panel-bg: rgba(12, 28, 44, 0.85); /* Un poco más opaco para leer mejor */
+    --jarvis-border: rgba(0, 229, 255, 0.3);
+    --jarvis-glow: #00e5ff; /* Cian más brillante */
+    --jarvis-text: #e0f7ff;
+    --jarvis-text-muted: #94aab7;
+    --card-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* 3. Base de la página */
+/* 2. FONDO ANIMADO (GRID) */
 body {
     background-color: var(--jarvis-bg) !important;
-    color: var(--jarvis-text) !important; /* Forzar texto claro */
+    color: var(--jarvis-text) !important;
     font-family: 'Exo 2', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
+    overflow-x: hidden;
+    
+    /* Patrón de rejilla futurista */
+    background-image: 
+        linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center top;
 }
 
-/* --- ¡¡REGLAS NUEVAS PARA FORZAR CONTRASTE!! --- */
-p {
-    color: var(--jarvis-text) !important; /* Forzar párrafos a ser claros */
+/* 3. ANIMACIONES (KEYFRAMES) */
+@keyframes slideInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
-.text-muted {
-    color: var(--jarvis-text-muted) !important; /* Forzar texto atenuado a ser claro */
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 5px rgba(0, 229, 255, 0.2); }
+    50% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.6); }
+    100% { box-shadow: 0 0 5px rgba(0, 229, 255, 0.2); }
 }
-/* --- Fin de reglas nuevas --- */
 
-
-/* 4. Estilo de "vidrio" para tarjetas y paneles */
+/* 4. TARJETAS Y PANELES (GLASSMORPHISM) */
 .card, .alert {
     background-color: var(--jarvis-panel-bg) !important;
     border: 1px solid var(--jarvis-border) !important;
-    backdrop-filter: blur(10px); 
-    box-shadow: 0 0 15px rgba(0, 184, 255, 0.1);
-    color: var(--jarvis-text) !important; /* ¡¡Importante!! Forzar texto claro dentro de las tarjetas */
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 4px !important; /* Bordes levemente redondeados */
+    
+    /* Animación de entrada */
+    animation: slideInUp 0.6s ease-out forwards;
+    transition: var(--card-transition);
+}
+
+/* Efecto Hover en las tarjetas: Se levantan y brillan */
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--jarvis-glow) !important;
+    box-shadow: 0 10px 40px rgba(0, 229, 255, 0.15);
 }
 
 .card-header, .card-footer {
     border-color: var(--jarvis-border) !important;
+    background-color: rgba(0, 229, 255, 0.05) !important;
 }
 
-/* 5. Títulos */
-.card-title, h1, h2, h3, h4, h5 {
+/* 5. TEXTOS Y TÍTULOS */
+h1, h2, h3, h4, h5, .navbar-brand {
     color: var(--jarvis-glow);
-    font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.4); /* Texto brillante */
 }
 
-/* 6. Formularios */
+p, .text-muted, label {
+    color: var(--jarvis-text-muted) !important;
+}
+
+/* 6. FORMULARIOS (INPUTS) */
 .form-control, .form-select {
-    background-color: rgba(0, 0, 0, 0.3) !important;
-    color: var(--jarvis-text) !important;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    color: #fff !important;
     border: 1px solid var(--jarvis-border) !important;
-}
-.form-control:focus, .form-select:focus {
-    color: var(--jarvis-text) !important;
-    background-color: rgba(0, 0, 0, 0.5) !important;
-    border-color: var(--jarvis-glow) !important;
-    box-shadow: 0 0 10px rgba(0, 184, 255, 0.5) !important; 
-}
-.form-label {
-    color: var(--jarvis-text-muted) !important; /* ¡¡Importante!! Forzar etiquetas claras */
+    transition: all 0.3s ease;
 }
 
-/* 7. Tablas */
+.form-control:focus, .form-select:focus {
+    background-color: rgba(0, 15, 30, 0.8) !important;
+    border-color: var(--jarvis-glow) !important;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.3) !important;
+    color: #fff !important;
+}
+
+/* 7. BOTONES (NEÓN) */
+.btn-primary {
+    background: transparent !important;
+    border: 1px solid var(--jarvis-glow) !important;
+    color: var(--jarvis-glow) !important;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.1);
+}
+
+.btn-primary:hover {
+    background: var(--jarvis-glow) !important;
+    color: #000 !important; /* Texto negro para contraste */
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.6); /* Glow fuerte */
+    transform: scale(1.02);
+}
+
+.btn-danger {
+    background: transparent !important;
+    border: 1px solid #ff4444 !important;
+    color: #ff4444 !important;
+}
+.btn-danger:hover {
+    background: #ff4444 !important;
+    color: #fff !important;
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
+}
+
+/* 8. TABLAS (FUTURISTAS) */
 .table {
     color: var(--jarvis-text) !important;
-    border-color: var(--jarvis-border) !important;
+    margin-top: 10px;
 }
 .table thead th {
+    background-color: rgba(0, 229, 255, 0.1) !important;
     color: var(--jarvis-glow);
-    font-weight: 700;
+    border-bottom: 2px solid var(--jarvis-glow) !important;
+    font-weight: 600;
+}
+.table-hover tbody tr {
+    transition: background-color 0.2s ease;
 }
 .table-hover tbody tr:hover {
-    color: var(--jarvis-glow) !important;
-    background-color: rgba(0, 184, 255, 0.1) !important;
+    background-color: rgba(0, 229, 255, 0.15) !important; /* Highlight al pasar el mouse */
+    cursor: pointer;
 }
-/* Para que el texto "Cerrada" se lea */
-.badge.bg-secondary {
-    background-color: var(--jarvis-text-muted) !important;
-    color: var(--jarvis-bg) !important;
-}
-
-/* 8. Botones */
-.btn-primary {
-    background-color: var(--jarvis-glow) !important;
-    border-color: var(--jarvis-glow) !important;
-    color: var(--jarvis-bg) !important;
-    font-weight: 700;
-    transition: all 0.2s ease;
-}
-.btn-primary:hover {
-    background-color: transparent !important;
-    color: var(--jarvis-glow) !important;
-    box-shadow: 0 0 10px rgba(0, 184, 255, 0.5) !important;
-}
-.btn-info {
-    font-weight: 700;
+.table td {
+    border-color: rgba(0, 229, 255, 0.1) !important;
+    vertical-align: middle;
 }
 
-/* 9. Navbar */
+/* 9. SCROLLBAR PERSONALIZADO (Para Chrome/Edge/Safari) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--jarvis-bg); 
+}
+::-webkit-scrollbar-thumb {
+    background: #0a3d50; 
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--jarvis-glow); 
+}
+
+/* 10. NAVBAR */
 .navbar {
-    background-color: var(--jarvis-panel-bg) !important;
-    border-bottom: 1px solid var(--jarvis-border) !important;
-    backdrop-filter: blur(10px);
-}
-.navbar-brand {
-    color: var(--jarvis-glow) !important;
-    font-weight: 700;
-}
-.nav-link {
-    color: var(--jarvis-text-muted) !important;
-    font-weight: 400;
-}
-.nav-link:hover {
-    color: var(--jarvis-glow) !important;
+    background-color: rgba(2, 10, 20, 0.9) !important;
+    border-bottom: 1px solid var(--jarvis-border);
+    backdrop-filter: blur(15px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-/* 10. Estadísticas (KPIs) */
+/* 11. ESTADÍSTICAS (KPIS) ANIMADAS */
 .display-4 {
-    color: var(--jarvis-glow);
     font-weight: 700;
+    text-shadow: 0 0 15px currentColor; /* Glow del mismo color del texto */
+    animation: pulseGlow 3s infinite; /* El número pulsa suavemente */
 }
-.border-danger { border-color: #dc3545 !important; }
-.text-danger { color: #dc3545 !important; }
-.border-warning { border-color: #ffc107 !important; }
-.text-warning { color: #ffc107 !important; }
-.border-success { border-color: #198754 !important; }
-.text-success { color: #198754 !important; }
-.border-info { border-color: #0dcaf0 !important; }
-.text-info { color: #0dcaf0 !important; }

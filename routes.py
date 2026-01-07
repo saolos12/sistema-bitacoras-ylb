@@ -390,8 +390,8 @@ def reporte_pdf():
     pdf.set_font('Arial', '', 8)
     
     col_width = {
-        "fecha": 18, "nombre": 40, "km_inicial": 15, "km_final": 15,
-        "km_recorridos": 15, "litros": 15, "actividad": 105, 
+        "fecha": 18, "nombre": 40, "km_inicial": 22, "km_final": 22,
+        "km_recorridos": 18, "litros": 12, "actividad": 105, 
         "sector": 34, "firma": 20
     }
 
@@ -482,3 +482,4 @@ def instalar_sistema_ahora():
             return "<h1 style='color:blue'>El sistema ya estaba instalado.</h1><br><a href='/login'>Ir al Login</a>"
     except Exception as e:
         return f"<h1 style='color:red'>ERROR: {str(e)}</h1>"
+

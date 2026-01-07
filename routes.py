@@ -391,8 +391,8 @@ def reporte_pdf():
     
     col_width = {
         "fecha": 18, "nombre": 40, "km_inicial": 20, "km_final": 20,
-        "km_recorridos": 16, "litros": 12, "actividad": 105, 
-        "sector": 34, "firma": 20
+        "km_recorridos": 15, "litros": 12, "actividad": 105, 
+        "sector": 32, "firma": 22
     }
 
     def safe_str(text):
@@ -482,5 +482,6 @@ def instalar_sistema_ahora():
             return "<h1 style='color:blue'>El sistema ya estaba instalado.</h1><br><a href='/login'>Ir al Login</a>"
     except Exception as e:
         return f"<h1 style='color:red'>ERROR: {str(e)}</h1>"
+
 
 

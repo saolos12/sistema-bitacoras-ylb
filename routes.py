@@ -21,7 +21,7 @@ class PDF(FPDF):
 
     def header(self):
         self.set_fill_color(28, 40, 51)
-        self.rect(0, 0, 297, 25, 'F') 
+        self.rect(0, 0, 279, 25, 'F') 
         
         logo_path = os.path.join(app.root_path, 'static', 'img', 'logo.png')
         if os.path.exists(logo_path):
@@ -385,7 +385,7 @@ def reporte_pdf():
     bitacoras = query.order_by(Bitacora.fecha_salida.asc()).all()
     fecha_hoy = datetime.utcnow().strftime('%Y-%m-%d')
 
-    pdf = PDF(orientation='L', unit='mm', format='A4')
+    pdf = PDF(orientation='L', unit='mm', format='Letter')
     pdf.add_page()
     pdf.set_font('Arial', '', 8)
     
@@ -482,6 +482,7 @@ def instalar_sistema_ahora():
             return "<h1 style='color:blue'>El sistema ya estaba instalado.</h1><br><a href='/login'>Ir al Login</a>"
     except Exception as e:
         return f"<h1 style='color:red'>ERROR: {str(e)}</h1>"
+
 
 
 
